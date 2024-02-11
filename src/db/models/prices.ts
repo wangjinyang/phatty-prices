@@ -1,5 +1,7 @@
-import { model } from 'mongoose';
+import { model, models } from 'mongoose';
 
 import { PricesSchema, IPrices } from '../schemas/prices';
 
-export default model<IPrices>('Prices', PricesSchema);
+const Prices = models.Prices || model<IPrices>('Prices', PricesSchema);
+
+export default Prices;

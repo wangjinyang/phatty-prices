@@ -362,7 +362,7 @@ async function queryTokenDataFromAttempts<Fn extends (...as: any) => any>(
       const res = await fn.apply(null, args);
       return res;
     } catch (error) {
-      console.log(`${errTip} Attempt ${attempts + 1} failed:`, error.message);
+      console.log(`${errTip} Attempt ${attempts + 1} failed:`, error);
       attempts++;
       await sleep(10000 * attempts);
     }
