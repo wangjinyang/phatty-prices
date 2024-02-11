@@ -23,11 +23,8 @@ const worker = {
 
 async function fetchUpdateData() {
   let response = await fetch(
-    `https://phatty-prices.vercel.app/api/prices?timestamp=1707338225`,
-    {
-      headers: {},
-    }
-  );
+    `https://phatty-prices.vercel.app/api/prices?timestamp=1707338225`
+  ).then(data=>data.json()).then(data=>console.log(data));
   console.log("response: ", response);
 }
 
