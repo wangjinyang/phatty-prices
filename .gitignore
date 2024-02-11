@@ -5,6 +5,7 @@ node_modules
 dist
 
 
-# vercel
+# temp
 .vercel
 .next
+.wrangler
