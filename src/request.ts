@@ -1,5 +1,6 @@
 import { createClient } from "urql";
 import PricesService from "./services/prices";
+import connectDB from "./db";
 
 const blockGraphQL =
   "https://graph.pulsechain.com/subgraphs/name/pulsechain/blocks";
@@ -212,6 +213,7 @@ export async function updatePricesJob() {
     return;
   }
   isUpdating = true
+  await connectDB();
   const blocks = await getLimitTimestamps();
   await updatePrices(blocks);
   await pricesService.deletePrice(blocks.map((block) => block.timestamp));
