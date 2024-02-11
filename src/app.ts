@@ -11,6 +11,10 @@ const app = new Koa();
 
 connectDB(Config.MONGODB_URI);
 
+app.use(async ctx => {
+  ctx.body = 'Hello Vercel, Hi Koa2 666';
+});
+
 app
   .use(cors())
   .use(bodyParser())
