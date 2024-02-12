@@ -12,7 +12,7 @@ export default async function handler(
     //@ts-ignore
     // const authHeader = req.headers.get('authorization');
     // console.log('authHeader: ', authHeader);
-    if (req.headers["Authorization"] !== `Bearer ${process.env.CRON_SECRET}`) {
+    if (req.headers["authorization"] !== `Bearer ${process.env.CRON_SECRET}`) {
       console.log("Unauthorized");
       return res.status(401).end("Unauthorized");
     }
