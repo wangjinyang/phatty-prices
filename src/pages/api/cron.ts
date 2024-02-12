@@ -2,16 +2,12 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { updatePricesJob } from "../../cron";
 export const maxDuration = 300;
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    console.log(222, req.headers);
-    console.log(1111, process.env.CRON_SECRET);
-    //@ts-ignore
-    // const authHeader = req.headers.get('authorization');
-    // console.log('authHeader: ', authHeader);
     if (req.headers["authorization"] !== `Bearer ${process.env.CRON_SECRET}`) {
       console.log("Unauthorized");
       return res.status(401).end("Unauthorized");
