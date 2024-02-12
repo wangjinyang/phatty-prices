@@ -1,8 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { updatePricesJob } from "../../cron";
-export const maxDuration = 300;
-
+export const config = {
+  maxDuration: 300,
+  memory: 2048
+};
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
