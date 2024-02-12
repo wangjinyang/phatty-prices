@@ -1,6 +1,7 @@
 import { createClient } from "urql";
 import PricesService from "./services/prices";
 import connectDB from "./db";
+import { IPrice } from "./db/schemas/prices";
 
 const blockGraphQL =
   "https://graph.pulsechain.com/subgraphs/name/pulsechain/blocks";
@@ -189,35 +190,41 @@ async function updatePrices(blocks: BlockItem[]) {
         const price = await pricesService.findPriceByNumber(number);
         if (!price) {
           const prices = await getPriceByBlock(number);
-          await pricesService.addPrice({
+          return {
             number,
             timestamp,
             prices,
-          });
+          };
         }
+        return false;
       })()
     );
     if (requestList.length >= step) {
-      await Promise.all(requestList);
+      let requestData = await Promise.all(requestList);
       requestList = [];
+      requestData = requestData.filter(Boolean);
+      requestData.length &&
+        (await pricesService.addPrice(requestData as IPrice[]));
     }
   }
-  await Promise.all(requestList);
+  let requestData = await Promise.all(requestList);
   requestList = [];
+  requestData = requestData.filter(Boolean);
+  requestData.length && (await pricesService.addPrice(requestData as IPrice[]));
 }
 
 let isUpdating = false;
 
 export async function updatePricesJob() {
-  if(isUpdating) {
+  if (isUpdating) {
     return;
   }
-  isUpdating = true
+  isUpdating = true;
   await connectDB();
   const blocks = await getLimitTimestamps();
   await updatePrices(blocks);
   await pricesService.deletePrice(blocks.map((block) => block.timestamp));
-  isUpdating = false
+  isUpdating = false;
 }
 
 async function queryTokenDataFromPulsex({

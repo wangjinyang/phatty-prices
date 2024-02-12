@@ -2,10 +2,9 @@ import Prices from "../db/models/prices";
 import { IPrice } from "../db/schemas/prices";
 
 export default class PricesService {
-  public async addPrice(data: IPrice) {
+  public async addPrice(data: IPrice[]) {
     try {
-      const price = new Prices(data);
-      return await price.save();
+      return await Prices.insertMany(data);
     } catch (error) {
       console.log("error: ", error);
       throw error;
@@ -23,7 +22,7 @@ export default class PricesService {
     return await Prices.findOne().sort({ timestamp: -1 });
   }
   public async deletePrice(timestamps: number[]) {
-    return await Prices.findOne().deleteMany({
+    return await Prices.deleteMany({
       timestamp: { $nin: timestamps },
     });
   }
