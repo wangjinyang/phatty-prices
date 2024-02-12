@@ -8,6 +8,8 @@ export default async function handler(
 ) {
   try {
     const vercelSc = JSON.parse((req.headers["x-vercel-sc-headers"] as string) || '{}') as Record<string, any>;
+    console.log('vercelSc: ', JSON.stringify(vercelSc));
+    console.log(1111, process.env.CRON_SECRET);
     if (vercelSc["Authorization"] !== `Bearer ${process.env.CRON_SECRET}`) {
       console.log("Unauthorized");
       return res.status(401).end("Unauthorized");
