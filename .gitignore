@@ -9,3 +9,7 @@ dist
 .vercel
 .next
 .wrangler
+
+
+# env
+.env.local

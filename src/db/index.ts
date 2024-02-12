@@ -13,7 +13,7 @@ const connectMongo = async () => {
     cachedPromise = mongoose
       .connect(db)
       .then(() => {
-        return console.log(`Successfully connected to ${db}`);
+        return console.log(`Successfully connected to ${db.split("//")[0]}`);
       })
       .catch((error) => {
         console.log("Error connecting to database: ", error);
