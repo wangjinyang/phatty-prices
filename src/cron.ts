@@ -4,7 +4,7 @@ import connectDB from "./db";
 import { IPrice } from "./db/schemas/prices";
 
 const blockGraphQL =
-  "https://graph.pulsechain.com/subgraphs/name/pulsechain/blocks";
+  "https://sub3.phatty.io/subgraphs/name/blocklytics/pls-blocks1";
 const pulsexGraphQL =
   "https://graph.pulsechain.com/subgraphs/name/pulsechain/pulsex";
 const pulsexV2Subgraph =
