@@ -190,27 +190,22 @@ async function updatePrices(blocks: BlockItem[]) {
         const price = await pricesService.findPriceByNumber(number);
         if (!price) {
           const prices = await getPriceByBlock(number);
-          return {
+          const data = {
             number,
             timestamp,
             prices,
           };
+          await pricesService.addPrice(data);
         }
-        return false;
       })()
     );
     if (requestList.length >= step) {
-      let requestData = await Promise.all(requestList);
+      await Promise.all(requestList);
       requestList = [];
-      requestData = requestData.filter(Boolean);
-      requestData.length &&
-        (await pricesService.addPrice(requestData as IPrice[]));
     }
   }
-  let requestData = await Promise.all(requestList);
+  await Promise.all(requestList);
   requestList = [];
-  requestData = requestData.filter(Boolean);
-  requestData.length && (await pricesService.addPrice(requestData as IPrice[]));
 }
 
 let isUpdating = false;

@@ -2,9 +2,10 @@ import Prices from "../db/models/prices";
 import { IPrice } from "../db/schemas/prices";
 
 export default class PricesService {
-  public async addPrice(data: IPrice[]) {
+  public async addPrice(data: IPrice) {
     try {
-      return await Prices.insertMany(data);
+      const price = new Prices(data)
+      return await price.save();
     } catch (error) {
       console.log("error: ", error);
       throw error;
