@@ -1,10 +1,9 @@
 import { createClient } from "urql";
 import PricesService from "./services/prices";
 import connectDB from "./db";
-import { IPrice } from "./db/schemas/prices";
 
 const blockGraphQL =
-  "https://sub3.phatty.io/subgraphs/name/blocklytics/pls-blocks1";
+  "https://graph.pulsechain.com/subgraphs/name/pulsechain/blocks";
 const pulsexGraphQL =
   "https://graph.pulsechain.com/subgraphs/name/pulsechain/pulsex";
 const pulsexV2Subgraph =
