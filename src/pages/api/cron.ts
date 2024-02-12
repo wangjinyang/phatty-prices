@@ -7,12 +7,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    console.log('req.headers["Authorization"]: ', JSON.stringify(req.headers));
-    if (req.headers["authorization"] !== `Bearer ${process.env.CRON_SECRET}`) {
+    const vercelSc = JSON.parse((req.headers["x-vercel-sc-headers"] as string) || '{}') as Record<string, any>;
+    if (vercelSc["Authorization"] !== `Bearer ${process.env.CRON_SECRET}`) {
       console.log("Unauthorized");
       return res.status(401).end("Unauthorized");
     }
-    console.log("updatePricesJob");
+    console.log("do updatePricesJob");
     await updatePricesJob();
     return res.status(200).json({ message: "success" });
   } catch (err) {
