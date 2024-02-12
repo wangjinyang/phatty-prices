@@ -2,5 +2,10 @@
   "crons": [{
     "path": "/api/cron",
     "schedule": "*/25 * * * *"
-  }]
+  }],
+  "functions": {
+    "pages/api/cron": {
+      "maxDuration": 300
+    }
+  }
 }
