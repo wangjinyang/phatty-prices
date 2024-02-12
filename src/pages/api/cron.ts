@@ -7,13 +7,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    console.log('req.headers["Authorization"]: ', req.headers["Authorization"]);
-    // @ts-ignore
-    console.log("123213", req.headers.get("Authorization"));
-    if (
-      // @ts-ignore
-      req.headers.get("Authorization") !== `Bearer ${process.env.CRON_SECRET}`
-    ) {
+    console.log('req.headers["Authorization"]: ', JSON.stringify(req.headers));
+    if (req.headers["authorization"] !== `Bearer ${process.env.CRON_SECRET}`) {
       console.log("Unauthorized");
       return res.status(401).end("Unauthorized");
     }
