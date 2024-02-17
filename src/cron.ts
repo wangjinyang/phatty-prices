@@ -216,8 +216,8 @@ export async function updatePricesJob() {
   isUpdating = true;
   await connectDB();
   const blocks = await getLimitTimestamps();
-  await updatePrices(blocks);
   await pricesService.deletePrice(blocks.map((block) => block.timestamp));
+  await updatePrices(blocks);
   isUpdating = false;
 }
 
