@@ -179,6 +179,7 @@ async function getLimitTimestamps(minutes: number = 60) {
 }
 
 async function updatePrices(blocks: BlockItem[]) {
+  let count = 0
   const step = 50;
   let requestList = [];
   for (let pos = 0; pos < blocks.length; pos++) {
@@ -189,6 +190,7 @@ async function updatePrices(blocks: BlockItem[]) {
         const price = await pricesService.findPriceByNumber(number);
         if (!price) {
           const prices = await getPriceByBlock(number);
+          count++
           const data = {
             number,
             timestamp,
@@ -201,10 +203,12 @@ async function updatePrices(blocks: BlockItem[]) {
     if (requestList.length >= step) {
       await Promise.all(requestList);
       requestList = [];
+      console.log(`Has updated ${count} data...`);
     }
   }
   await Promise.all(requestList);
   requestList = [];
+  console.log(`Total update ${count} data`);
 }
 
 let isUpdating = false;
@@ -216,8 +220,14 @@ export async function updatePricesJob() {
   isUpdating = true;
   await connectDB();
   const blocks = await getLimitTimestamps();
+  console.log(`Start delete old data...`);
+  let start = Date.now();
   await pricesService.deletePrice(blocks.map((block) => block.timestamp));
+  console.log(`Delete old data cost ${(Date.now() - start) / 1000}s.`);
+  start = Date.now();
+  console.log(`Start update data ...`);
   await updatePrices(blocks);
+  console.log(`Update data cost ${(Date.now() - start) / 1000}s.`);
   isUpdating = false;
 }
 
