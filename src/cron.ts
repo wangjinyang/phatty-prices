@@ -179,7 +179,7 @@ async function getLimitTimestamps(minutes: number = 60) {
 }
 
 async function updatePrices(blocks: BlockItem[]) {
-  let count = 0
+  let count = 0;
   const step = 50;
   let requestList = [];
   for (let pos = 0; pos < blocks.length; pos++) {
@@ -190,13 +190,16 @@ async function updatePrices(blocks: BlockItem[]) {
         const price = await pricesService.findPriceByNumber(number);
         if (!price) {
           const prices = await getPriceByBlock(number);
-          count++
+          count++;
           const data = {
             number,
             timestamp,
             prices,
           };
-          await pricesService.addPrice(data);
+          const tempPrice = await pricesService.findPriceByNumber(number);
+          if (!tempPrice) {
+            await pricesService.addPrice(data);
+          }
         }
       })()
     );
