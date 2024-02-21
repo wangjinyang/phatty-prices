@@ -380,7 +380,7 @@ async function queryTokenDataFromAttempts<Fn extends (...as: any) => any>(
     } catch (error) {
       console.log(`${errTip} Attempt ${attempts + 1} failed:`, error);
       attempts++;
-      await sleep(10000 * attempts);
+      await sleep(10000);
     }
   }
   throw new Error(
